@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private final int UNIT_SIZE = 25; // 每个单元格大小
-    private final int GAME_WIDTH = 600; // 游戏宽度
+    private final int GAME_WIDTH = 900; // 游戏宽度
     private final int GAME_HEIGHT = 600; // 游戏高度
     private final int DELAY = 150; // 定时器延迟（毫秒）
     private final Random random = new Random();
@@ -18,10 +18,15 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private int score = 0; // 分数
 
     public SnakeGame() {
+//        创建游戏窗口
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+//        设置背景
         this.setBackground(Color.BLACK);
+//        通过监听案件来实现控制蛇的移动
         this.setFocusable(true);
+//        注册键盘事件的监听器 当有键盘事件发生时，SnakeGame 类中的 keyPressed, keyReleased, 和 keyTyped 方法将会被调用。
         this.addKeyListener(this);
+//        使窗口大小无法改变
         startGame();
     }
 
@@ -137,6 +142,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("贪吃蛇游戏");
+//        使游戏窗口无法被改变
+        frame.setResizable(false);
         SnakeGame game = new SnakeGame();
         frame.add(game);
         frame.pack();
