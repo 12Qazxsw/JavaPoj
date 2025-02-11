@@ -9,7 +9,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private final int GAME_WIDTH = 900; // 游戏宽度
     private final int GAME_HEIGHT = 600; // 游戏高度
     private final int DELAY = 150; // 定时器延迟（毫秒）
-    private final Random random = new Random();
+    private final Random random = new Random(); // 用于随机食物的位置
     private Timer timer;
     private final ArrayList<Point> snake = new ArrayList<>(); // 蛇的身体
     private Point food; // 食物位置
@@ -26,43 +26,47 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         this.setFocusable(true);
 //        注册键盘事件的监听器 当有键盘事件发生时，SnakeGame 类中的 keyPressed, keyReleased, 和 keyTyped 方法将会被调用。
         this.addKeyListener(this);
-//        使窗口大小无法改变
         startGame();
     }
 
     private void startGame() {
-        newSnake();
-        spawnFood();
-        running = true;
-        timer = new Timer(DELAY, this);
+        newSnake(); // 蛇的创建
+        spawnFood(); // 食物创建
+        running = true; // 运行标记
+        timer = new Timer(DELAY, this);  // 创建一个定时器 到时间后this的监听器触发
         timer.start();
     }
 
+//    对于蛇的创建
     private void newSnake() {
+//        先清除蛇的元素
         snake.clear();
         snake.add(new Point(4 * UNIT_SIZE, 5 * UNIT_SIZE)); // 头部
         snake.add(new Point(3 * UNIT_SIZE, 5 * UNIT_SIZE)); // 身体
         snake.add(new Point(2 * UNIT_SIZE, 5 * UNIT_SIZE)); // 尾巴
     }
 
+//    生成食物
     private void spawnFood() {
         int x = random.nextInt((GAME_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         int y = random.nextInt((GAME_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
         food = new Point(x, y);
     }
 
+// 用于重绘组件的内容
+//    比如食物与蛇
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (running) {
             // 绘制食物
-            g.setColor(Color.RED);
-            g.fillRect(food.x, food.y, UNIT_SIZE, UNIT_SIZE);
+            g.setColor(Color.RED); // 颜色
+            g.fillRect(food.x, food.y, UNIT_SIZE, UNIT_SIZE); // 大小 一个单元格
 
             // 绘制蛇
             for (Point p : snake) {
                 g.setColor(Color.GREEN);
-                g.fillRect(p.x, p.y, UNIT_SIZE, UNIT_SIZE);
+                g.fillRect(p.x, p.y, UNIT_SIZE, UNIT_SIZE); // 蛇一段身体的大小
             }
 
             // 绘制分数
@@ -75,6 +79,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+//    当死亡事件触发时 调用gameOver
     private void gameOver(Graphics g) {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 50));
@@ -97,8 +102,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
         // 检测碰撞
         if (newHead.x < 0 || newHead.y < 0 || newHead.x >= GAME_WIDTH || newHead.y >= GAME_HEIGHT || snake.contains(newHead)) {
-            running = false;
-            timer.stop();
+            running = false;  // 死亡标记
+            timer.stop();  // 计时停止
         } else {
             snake.addFirst(newHead); // 添加新头部
 
@@ -117,9 +122,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         if (running) {
             move();
         }
-        repaint();
+        repaint();  // 若死亡 重绘画面
     }
 
+//    监听并接受用户键盘输入
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
