@@ -11,7 +11,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private final int DELAY = 150; // 定时器延迟（毫秒）
     private final Random random = new Random();
     private Timer timer;
-    private ArrayList<Point> snake = new ArrayList<>(); // 蛇的身体
+    private final ArrayList<Point> snake = new ArrayList<>(); // 蛇的身体
     private Point food; // 食物位置
     private char direction = 'R'; // 蛇的初始方向（右）
     private boolean running = false; // 游戏是否运行
@@ -79,7 +79,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     }
 
     private void move() {
-        Point head = snake.get(0); // 获取蛇头
+        Point head = snake.getFirst(); // 获取蛇头
         Point newHead = new Point(head);
 
         // 根据方向移动蛇头
@@ -95,14 +95,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             running = false;
             timer.stop();
         } else {
-            snake.add(0, newHead); // 添加新头部
+            snake.addFirst(newHead); // 添加新头部
 
             // 检测是否吃到食物
             if (newHead.equals(food)) {
                 score++;
                 spawnFood();
             } else {
-                snake.remove(snake.size() - 1); // 移除尾部
+                snake.removeLast(); // 移除尾部
             }
         }
     }
