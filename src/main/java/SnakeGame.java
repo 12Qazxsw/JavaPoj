@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
+import com.formdev.flatlaf.*;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private final int UNIT_SIZE = 25; // 每个单元格大小
@@ -81,7 +82,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
 //    当死亡事件触发时 调用gameOver
     private void gameOver(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.RED);  // 添加主题 使窗口好看了一点
         g.setFont(new Font("Arial", Font.BOLD, 50));
         FontMetrics metrics = getFontMetrics(g.getFont());
         String message = "Game Over";
@@ -147,6 +148,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {}
 
     public static void main(String[] args) {
+        FlatDarkLaf.setup();
         JFrame frame = new JFrame("贪吃蛇游戏");
 //        使游戏窗口无法被改变
         frame.setResizable(false);
